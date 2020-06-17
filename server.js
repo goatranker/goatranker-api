@@ -13,19 +13,17 @@ require('dotenv').config()
 //////////////////////////
 // Globals
 //////////////////////////
-// List of urls our API will accept calls from
-// const whitelist = ['http://localhost:3000']
+const whitelist = ['http://localhost:3000']
 
-// const corsOptions = {
-//     origin: function (origin, callback) {
-//         if (whitelist.indexOf(origin) !== -1) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error('Not allowed by CORS'));
-//         }
-//     },
-// };
-
+const corsOptions = (req, callback) => {
+  let corsOptions;
+  if (whitelist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
 //////////////////////////
 // Database
 //////////////////////////
@@ -49,34 +47,28 @@ mongoose.connection.once('open', () => {
     console.log('connected to mongoose...');
 });
 
+/// Controllers
+const usersController = require('./controllers/usersController.js')
 
 //////////////////////////
 // Models
 //////////////////////////
 
 const Artist = require("./models/artistSchema.js");
-const User = require("./models/userSchema.js");
 const Category = require("./models/categorySchema.js");
 
 //////////////////////////
 // Middleware
 //////////////////////////
 
-// app.use(cors(corsOptions)) // cors middlewear, configured by corsOptions
+app.use(cors(corsOptions)) // cors middlewear, configured by corsOptions
 app.use(express.json())
 app.use(express.static('build'))
 
+app.use('/users', usersController)
 //////////////////////////
 // Sessions
 //////////////////////////
-
-app.use(
-    session({
-      secret: process.env.SECRET,
-      resave: false,
-      saveUninitialized: false,
-    })
-  )
 
 
 ////////////////
@@ -133,7 +125,7 @@ authTheApp()
 // End controllers
 
 app.get('/', (req, res) => {
-  res.send('hello')
+  res.send('hello Goat')
 })
 
 // General Search for all of spotify's artists. 
