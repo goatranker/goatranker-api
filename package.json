@@ -1,0 +1,33 @@
+{
+  "name": "goatranker-api",
+  "version": "1.0.0",
+  "description": "Final Project for Bootcamp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/whoisdominic/goatranker-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/whoisdominic/goatranker-api/issues"
+  },
+  "homepage": "https://github.com/whoisdominic/goatranker-api#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express-session": "^1.17.1",
+    "history": "^4.10.1",
+    "mongoose": "^5.9.17",
+    "spotify-web-api-js": "^1.4.0",
+    "spotify-web-api-node": "^4.0.0"
+  }
+}
