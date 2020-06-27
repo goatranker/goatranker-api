@@ -61,7 +61,7 @@ const Category = require("./models/categorySchema.js");
 // Middleware
 //////////////////////////
 
-app.use(cors(corsOptions)) // cors middlewear, configured by corsOptions
+app.use(cors(corsOptions)) // cors middlewear, configured by 
 app.use(express.json())
 app.use(express.static('build'))
 
@@ -118,7 +118,7 @@ spotifyApi.clientCredentialsGrant().then(
 }  
 
 authTheApp()
-// setInterval(authTheApp, 1200000)
+setInterval(authTheApp, 1200000)
 
 // All controllers go here
 
@@ -177,7 +177,7 @@ app.get("/artist/:id", async (req, res) => {
       artist: foundArtist,
       tracks: foundTracks,
       goatData: goatSearch || newGoat
-    })
+  })    
   } catch (error) {
     res.status(400).json(error)
   }  
