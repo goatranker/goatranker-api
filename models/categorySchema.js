@@ -6,7 +6,7 @@ const categorySchema = new Schema({
     name: {
         type: String,
         required: true,
-        unique: false
+        unique: true
     },
     userVotes: [{
         artistId: String,

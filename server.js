@@ -183,6 +183,18 @@ app.get("/artist/:id", async (req, res) => {
   }  
 });
 
+// get votes for category
+app.get('/categories/:genre', async (req, res) => {
+  try {
+    const findCat = await Category.findOne({name: req.params.genre})
+    console.log(findCat);
+    res.status(200).json(findCat)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+})
+
+
 // votes for the category
 app.post("/categories/:genre", async (req, res) => {
   try {
@@ -203,14 +215,17 @@ app.post("/categories/:genre", async (req, res) => {
     const vote = await firstVote?
 
       Category.findByIdAndUpdate({_id: firstVote._id}, {
-        $push: {userVotes: {artistId: req.body.artistId, user_id: req.body.user_id,}}
+        $push: {
+          userVotes: {$each: [{artistId: req.body.artistId, user_id: req.body.user_id}]}
+        }
       }, (err, addedVote) => {
         if (err){
           console.log(err);
         } else {
           console.log('added vote', addedVote);
           res.status(200).json({
-            newVote: addedVote
+            newVote: addedVote,
+            voteStats: addedVote.userVotes.length
           })
         }
       })
@@ -227,7 +242,8 @@ app.post("/categories/:genre", async (req, res) => {
         } else {
           console.log(createdCategory);
           res.status(200).json({
-            firstVote: createdCategory
+            firstVote: createdCategory,
+            voteStats: createdCategory.userVotes.length
           })
       }
      });
