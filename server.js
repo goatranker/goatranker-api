@@ -30,7 +30,7 @@ const corsOptions = (req, callback) => {
 
 const db = mongoose.connection
 const MONGODB_URI =
-    process.env.MONGODB_URL || 'mongodb://localhost:27017/goatrankerfinal';
+    process.env.MONGODB_URL || 'mongodb://localhost:27017/goatrankerfinal2';
 
 //...farther down the page
 
@@ -179,41 +179,61 @@ app.get("/artist/:id", async (req, res) => {
       goatData: goatSearch || newGoat
   })    
   } catch (error) {
-    res.status(400).json(error)
+    res.status(400)
   }  
 });
 
 // votes for the category
 app.post("/categories/:genre", async (req, res) => {
   try {
-    const catCheck = await Category.findOne({name: req.body.genre},
+    let firstVote = null;
+    console.log(req.body);
+    // needs to check if the category is made yet
+    const catCheck = await Category.findOne({name: req.body.name},
       (err, foundCategory) => {
         if (err) {
           console.log(err);
         } else {
-          return foundCategory
+          firstVote = foundCategory
+          console.log('found category', foundCategory);
+          console.log('firstVote', firstVote);
+        }
+      })  
+    // if category is made, add the vote, else create category
+    const vote = await firstVote?
+
+      Category.findByIdAndUpdate({_id: firstVote._id}, {
+        $push: {userVotes: {artistId: req.body.artistId, user_id: req.body.user_id,}}
+      }, (err, addedVote) => {
+        if (err){
+          console.log(err);
+        } else {
+          console.log('added vote', addedVote);
+          res.status(200).json({
+            newVote: addedVote
+          })
         }
       })
-      const createCat = await catCheck? "Already Created": Category.create({
+      : 
+      Category.create({
         name: req.body.name,
         userVotes: {
           artistId: req.body.artistId,
           user_id: req.body.user_id,
         },
-      },
-      (err, createdCategory) => {
+      },(err, createdCategory) => {
         if (err) {
           console.log(err);
         } else {
-          return createdCategory
-        }
-      })
-      res.status(200).json({
-        catCheck: catCheck,
-        createCat: createCat
-      })
+          console.log(createdCategory);
+          res.status(200).json({
+            firstVote: createdCategory
+          })
+      }
+     });
   } catch (error) {
-    res.status(400)
+    console.log(error);
+    res.status(400).json(error)
   }
 });
 
