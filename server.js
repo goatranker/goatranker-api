@@ -216,7 +216,13 @@ app.post("/categories/:genre", async (req, res) => {
 
       Category.findByIdAndUpdate({_id: firstVote._id}, {
         $push: {
-          userVotes: {$each: [{artistId: req.body.artistId, user_id: req.body.user_id}]}
+          userVotes: {$each: [
+            {
+              artistId: req.body.artistId,
+               user_id: req.body.user_id,
+               artistName: req.body.artistName
+              }
+          ]}
         }
       }, (err, addedVote) => {
         if (err){
@@ -235,6 +241,7 @@ app.post("/categories/:genre", async (req, res) => {
         userVotes: {
           artistId: req.body.artistId,
           user_id: req.body.user_id,
+          artistName: req.body.artistName
         },
       },(err, createdCategory) => {
         if (err) {

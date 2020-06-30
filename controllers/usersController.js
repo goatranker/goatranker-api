@@ -25,9 +25,25 @@ const authCheck = (req, res, next) => {
         req.user = verified.id
         next()
     } catch (error) {
+        console.log(error);
+        
         res.status(500).json({error: error.message})
     }
 }
+
+//////////////////////////
+// Account Info
+//////////////////////////
+
+router.get('/account', authCheck, async (req, res) => {
+    try {
+        const findUser = await User.findById(req.body.user_id)
+        console.log(findUser);
+        res.status(200).json(findUser)
+    } catch (error) {
+        res.status(400).json(error)
+    }
+})
 
 //////////////////////////
 // Signup

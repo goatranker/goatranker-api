@@ -11,6 +11,7 @@ const categorySchema = new Schema({
     userVotes: [{
         artistId: String,
         user_id: String,
+        artistName: String,
     }]
 }, {
     timestamps: true
