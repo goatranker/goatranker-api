@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 8000
 const cors = require('cors');
 require('dotenv').config()
 
+const Ranker = require('./algorithms/ranker.js')
+
 //////////////////////////
 // Globals
 //////////////////////////

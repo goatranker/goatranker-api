@@ -9,7 +9,8 @@ const ranker = (votes) => {
         staged.push(item[0].artistId);
     }
     let sorted = staged.sort();
-
+    console.log('in ranker',sorted);
+    
     return sorted;
 };
 
