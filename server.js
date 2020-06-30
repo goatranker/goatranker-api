@@ -32,7 +32,7 @@ const corsOptions = (req, callback) => {
 
 const db = mongoose.connection
 const MONGODB_URI =
-    process.env.MONGODB_URL || 'mongodb://localhost:27017/goatrankerfinal2';
+    process.env.MONGODB_URL || 'mongodb://localhost:27017/goatrankerfinal3';
 
 //...farther down the page
 
@@ -185,16 +185,56 @@ app.get("/artist/:id", async (req, res) => {
   }  
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // get votes for category
 app.get('/categories/:genre', async (req, res) => {
   try {
     const findCat = await Category.findOne({name: req.params.genre})
-    console.log(findCat);
-    res.status(200).json(findCat)
+    console.log("found cat", findCat);
+
+    // console.log("Ranked", Ranker(findCat.userVotes, findCat.length))
+
+
+    res.status(200).json({
+      unsorted: findCat.userVotes,
+      ranked: Ranker(findCat.userVotes, findCat.userVotes.length)
+    })
   } catch (error) {
     res.status(400).json(error)
   }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // votes for the category
