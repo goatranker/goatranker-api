@@ -185,32 +185,12 @@ app.get("/artist/:id", async (req, res) => {
   }  
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // get votes for category
 app.get('/categories/:genre', async (req, res) => {
   try {
     const findCat = await Category.findOne({name: req.params.genre})
-    console.log("found cat", findCat);
-
-    // console.log("Ranked", Ranker(findCat.userVotes, findCat.length))
-
-
     res.status(200).json({
+      category: findCat.name,
       unsorted: findCat.userVotes,
       ranked: Ranker(findCat.userVotes, findCat.userVotes.length)
     })
@@ -218,24 +198,6 @@ app.get('/categories/:genre', async (req, res) => {
     res.status(400).json(error)
   }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // votes for the category
 app.post("/categories/:genre", async (req, res) => {
