@@ -196,6 +196,15 @@ This is so we can display any votes on the artist show page
     }
   }
 );
+// get all categories
+app.get("/categories/all", async (req, res) => {
+  try {
+    const allCats = await Category.find({});
+    res.status(200).json(allCats);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 // get votes for category
 app.get("/categories/:genre", async (req, res) => {
