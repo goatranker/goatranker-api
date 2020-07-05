@@ -32,7 +32,7 @@ const corsOptions = (req, callback) => {
 
 const db = mongoose.connection;
 const MONGODB_URI =
-  process.env.MONGODB_URL || "mongodb://localhost:27017/goatrankerfinal3";
+  process.env.MONGODB_URL || "mongodb://localhost:27017/goatrankerfinal4";
 
 //...farther down the page
 
@@ -265,6 +265,7 @@ app.post("/categories/:genre", async (req, res) => {
                     artistId: req.body.artistId,
                     user_id: req.body.user_id,
                     artistName: req.body.artistName,
+                    date: Date(),
                   },
                 ],
               },
@@ -289,6 +290,7 @@ app.post("/categories/:genre", async (req, res) => {
               artistId: req.body.artistId,
               user_id: req.body.user_id,
               artistName: req.body.artistName,
+              date: Date(),
             },
           },
           (err, createdCategory) => {
