@@ -15,7 +15,7 @@ const Ranker = require("./algorithms/ranker.js");
 //////////////////////////
 // Globals
 //////////////////////////
-const whitelist = ["http://localhost:3000"];
+const whitelist = ["http://localhost:3000", "https://goatranker.com"];
 
 const corsOptions = (req, callback) => {
   let corsOptions;
